@@ -613,8 +613,8 @@ MIT
 
 ## Support
 
-- GitHub Issues: [https://github.com/your-org/mimir/issues](https://github.com/your-org/mimir/issues)
-- Documentation: [https://github.com/your-org/mimir/tree/main/packages/wickedbased](https://github.com/your-org/mimir/tree/main/packages/wickedbased)
+- GitHub Issues: [https://github.com/your-org/wickedbased/issues](https://github.com/your-org/wickedbased/issues)
+- Documentation: [https://github.com/your-org/wickedbased/tree/main/packages/wickedbased](https://github.com/your-org/wickedbased/tree/main/packages/wickedbased)
 
 ## Changelog
 
