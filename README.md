@@ -1,10 +1,10 @@
 # wickedbased
 
-Supabase DO App Spec Library - TypeScript classes for DigitalOcean App Platform infrastructure with YAML serialization support.
+Supabase DO App Spec Library - TypeScript classes for DigitalOcean App Platform infrastructure with YAML serialization support. Wicked awesome, kid.
 
 ## Overview
 
-`wickedbased` provides type-safe, object-oriented TypeScript classes for defining DigitalOcean App Platform resources. Replace fragile YAML templating with a robust, composable API that produces clean, properly-formatted YAML output.
+`wickedbased` provides type-safe, object-oriented TypeScript classes for defining DigitalOcean App Platform resources. Replace those wicked fragile YAML templates with a robust, composable API that produces clean, properly-formatted YAML output. It's gonna be wicked pissa.
 
 ## Features
 
