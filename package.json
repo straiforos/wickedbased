@@ -1,6 +1,6 @@
 {
   "name": "wickedbased",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Type-safe OOP library for DigitalOcean App Platform infrastructure with YAML serialization support",
   "type": "module",
   "main": "dist/index.js",
