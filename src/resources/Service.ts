@@ -12,12 +12,17 @@ import { HealthCheck } from '../config/HealthCheck.js';
 import { DockerImage } from '../config/DockerImage.js';
 import { GitHubSource } from '../config/GitHubSource.js';
 import { VolumeMount } from '../config/VolumeMount.js';
-import { INSTANCE_SIZE_SLUGS } from '../validation/schemas.js';
+import { INSTANCE_SIZE_SLUGS, RouteSchema } from '../validation/schemas.js';
 
 /**
  * Source type for service
  */
 export type ServiceSource = DockerImage | GitHubSource;
+
+/**
+ * Route for service (path to expose)
+ */
+export type ServiceRoute = { path: string };
 
 /**
  * Service configuration
@@ -64,6 +69,11 @@ export class Service extends AppPlatformResource {
   readonly source?: ServiceSource;
 
   /**
+   * Routes for the service (optional, e.g. [{ path: "/" }])
+   */
+  readonly routes?: ServiceRoute[];
+
+  /**
    * Creates a new Service instance
    *
    * @param config - Service configuration
@@ -76,6 +86,7 @@ export class Service extends AppPlatformResource {
    * @param config.runCommand - Container command (optional)
    * @param config.volumes - Volume mounts (optional)
    * @param config.source - Source config (optional but recommended)
+   * @param config.routes - HTTP routes (optional)
    * @param config.envs - Environment variables (optional)
    * @throws ZodError if required fields are missing or invalid
    */
@@ -89,6 +100,7 @@ export class Service extends AppPlatformResource {
     runCommand?: string;
     volumes?: VolumeMount[];
     source?: ServiceSource;
+    routes?: ServiceRoute[];
     envs?: EnvironmentVariable[];
   }) {
     // Validate base resource properties first
@@ -100,13 +112,15 @@ export class Service extends AppPlatformResource {
       instanceCount: z.number().int().min(1, 'Instance count must be a positive integer'),
       httpPort: z.number().int().min(1).max(65535, 'Port must be between 1 and 65535').optional(),
       internalPorts: z.array(z.number().int().min(1).max(65535)).optional(),
-      runCommand: z.string().optional()
+      runCommand: z.string().optional(),
+      routes: z.array(RouteSchema).optional()
     }).parse({
       instanceSizeSlug: config.instanceSizeSlug,
       instanceCount: config.instanceCount,
       httpPort: config.httpPort,
       internalPorts: config.internalPorts,
-      runCommand: config.runCommand
+      runCommand: config.runCommand,
+      routes: config.routes
     });
 
     // Preserve class instances directly
@@ -118,6 +132,7 @@ export class Service extends AppPlatformResource {
     this.runCommand = config.runCommand;
     this.volumes = config.volumes;
     this.source = config.source;
+    this.routes = config.routes;
   }
 
   /**
@@ -158,11 +173,12 @@ export class Service extends AppPlatformResource {
       json.source = this.source.toJSON();
     }
 
+    if (this.routes !== undefined && this.routes.length > 0) {
+      json.routes = this.routes.map(r => ({ path: r.path }));
+    }
+
     return json;
   }
 }
 
-/**
- * Export instance size slugs for external use
- */
-export { INSTANCE_SIZE_SLUGS };
+export { INSTANCE_SIZE_SLUGS } from '../validation/schemas.js';

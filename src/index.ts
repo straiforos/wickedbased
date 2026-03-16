@@ -11,7 +11,10 @@ export { AppPlatformResource } from './base/AppPlatformResource.js';
 
 // Resource classes
 export { Service } from './resources/Service.js';
-export type { ServiceSource } from './resources/Service.js';
+export type { ServiceSource, ServiceRoute } from './resources/Service.js';
+
+export { Database } from './resources/Database.js';
+export type { DatabaseConfig, DatabaseEngine } from './resources/Database.js';
 
 export { Job } from './resources/Job.js';
 export type { JobSource, JobKind } from './resources/Job.js';
@@ -42,6 +45,8 @@ export {
   DockerImageSchema,
   GitHubSourceSchema,
   VolumeMountSchema,
+  RouteSchema,
+  DatabaseSchema,
   AppPlatformResourceBaseSchema,
   ServiceSchema,
   JobSchema,

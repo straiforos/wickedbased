@@ -113,6 +113,30 @@ export const VolumeMountSchema = z.object({
 });
 
 /**
+ * Route schema (path for service HTTP routes)
+ */
+export const RouteSchema = z.object({
+  path: z.string().min(1, 'Path must be non-empty')
+});
+
+/**
+ * Database engine enum
+ */
+export const DatabaseEngineSchema = z.enum(['PG', 'REDIS']);
+
+/**
+ * Database schema
+ */
+export const DatabaseSchema = z.object({
+  name: z.string().min(1, 'Name must be non-empty'),
+  engine: DatabaseEngineSchema,
+  version: z.string().min(1, 'Version must be non-empty'),
+  numNodes: z.number().int().min(1).max(3),
+  size: z.string().min(1, 'Size must be non-empty'),
+  production: z.boolean().default(false)
+});
+
+/**
  * AppPlatformResource base schema
  */
 export const AppPlatformResourceBaseSchema = z.object({
@@ -131,7 +155,8 @@ export const ServiceSchema = AppPlatformResourceBaseSchema.extend({
   healthCheck: HealthCheckSchema.optional(),
   runCommand: z.string().optional(),
   volumes: z.array(VolumeMountSchema).optional(),
-  source: z.union([DockerImageSchema, GitHubSourceSchema]).optional()
+  source: z.union([DockerImageSchema, GitHubSourceSchema]).optional(),
+  routes: z.array(RouteSchema).optional()
 });
 
 /**
