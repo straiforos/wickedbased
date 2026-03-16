@@ -38,13 +38,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/mimir.git",
-    "directory": "packages/wickedbased"
+    "url": "https://github.com/straiforos/wickedbased.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/mimir/issues"
+    "url": "https://github.com/straiforos/wickedbased/issues"
   },
-  "homepage": "https://github.com/your-org/mimir/tree/main/packages/wickedbased",
+  "homepage": "https://github.com/straiforos/wickedbased#readme",
   "dependencies": {
     "js-yaml": "^4.1.0",
     "zod": "^4.3.6"
