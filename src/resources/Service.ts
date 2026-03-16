@@ -20,7 +20,10 @@ import { INSTANCE_SIZE_SLUGS, RouteSchema } from '../validation/schemas.js';
 export type ServiceSource = DockerImage | GitHubSource;
 
 /**
- * Route for service (path to expose)
+ * Route for service (path to expose).
+ * @deprecated DigitalOcean deprecated per-service routes. Use app-level `ingress.rules` in your
+ * app spec instead (e.g. one rule with component name and path prefix). Omit or strip `routes`
+ * from the service payload when building the DO spec to avoid duplicate-ingress validation errors.
  */
 export type ServiceRoute = { path: string };
 
@@ -69,7 +72,8 @@ export class Service extends AppPlatformResource {
   readonly source?: ServiceSource;
 
   /**
-   * Routes for the service (optional, e.g. [{ path: "/" }])
+   * Routes for the service (optional, e.g. [{ path: "/" }]).
+   * @deprecated Use app-level `ingress.rules` in your app spec instead; DO rejects duplicate path rules.
    */
   readonly routes?: ServiceRoute[];
 
@@ -86,7 +90,7 @@ export class Service extends AppPlatformResource {
    * @param config.runCommand - Container command (optional)
    * @param config.volumes - Volume mounts (optional)
    * @param config.source - Source config (optional but recommended)
-   * @param config.routes - HTTP routes (optional)
+   * @param config.routes - HTTP routes (optional, deprecated: use app-level ingress.rules)
    * @param config.envs - Environment variables (optional)
    * @throws ZodError if required fields are missing or invalid
    */
@@ -173,6 +177,7 @@ export class Service extends AppPlatformResource {
       json.source = this.source.toJSON();
     }
 
+    // Deprecated: per-service routes. Prefer app-level ingress.rules; omit from payload to avoid DO 400.
     if (this.routes !== undefined && this.routes.length > 0) {
       json.routes = this.routes.map(r => ({ path: r.path }));
     }
